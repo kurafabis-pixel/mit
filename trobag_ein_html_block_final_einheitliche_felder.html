@@ -1,0 +1,675 @@
+<!--
+TRO BAG | Erweiterung des BESTEHENDEN Schnellanfrage-Formulars (Powermail UID 66)
+Diesen GESAMTEN Block einmal in ein HTML-Inhaltselement derselben TYPO3-Seite einfuegen,
+auf der die bestehende Schadenmeldung geladen wird.
+Es wird kein zweites Formular erstellt. Vorhandene Powermail-Felder bleiben bestehen.
+-->
+<style id="trobag-schnellanfrage-inline-css">
+/* Erweiterung des BESTEHENDEN Powermail-Formulars 66. Keine globalen Form-Styles. */
+.powermail_form_66 .trobag-more {
+  width: 100% !important;
+  max-width: 100%;
+  clear: both;
+  flex: 0 0 100%;
+  float: none;
+  box-sizing: border-box;
+  margin: 0 0 22px;
+}
+.powermail_form_66 .trobag-more, .powermail_form_66 .trobag-more * { box-sizing: border-box; }
+.powermail_form_66 .trobag-more__heading { margin: 4px 0 13px; font-size: 1.05rem; font-weight: 650; }
+.powermail_form_66 .trobag-more__grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 12px; margin: 0 0 12px; }
+.powermail_form_66 .trobag-more__grid .form-group { min-width: 0; width: 100%; margin: 0; }
+.powermail_form_66 .trobag-more__grid label,
+.powermail_form_66 .trobag-more__label { display: block; margin-bottom: 6px; font-size: .91rem; font-weight: 600; }
+.powermail_form_66 .trobag-more .form-control { width: 100%; max-width: 100%; min-height: 45px; }
+.powermail_form_66 .trobag-more__accordion { width: 100%; margin-top: 10px; border: 1px solid #dedbe0; border-radius: 3px; background: #fff; }
+.powermail_form_66 .trobag-more__accordion > summary { display: flex; justify-content: space-between; align-items: center; gap: 12px; cursor: pointer; padding: 13px 15px; list-style: none; font-weight: 600; color: inherit; }
+.powermail_form_66 .trobag-more__accordion > summary::-webkit-details-marker { display:none; }
+.powermail_form_66 .trobag-more__accordion > summary::after { content: '+'; display: inline-flex; justify-content: center; align-items:center; width: 20px; height: 20px; flex: none; font-size: 22px; line-height: 1; color: #6d1573; font-weight: 400; }
+.powermail_form_66 .trobag-more__accordion[open] > summary::after { content: '−'; }
+.powermail_form_66 .trobag-more__accordion > summary:focus-visible,
+.powermail_form_66 .trobag-more button:focus-visible { outline: 3px solid #6d1573; outline-offset: 2px; }
+.powermail_form_66 .trobag-more__muted { font-size: .85rem; font-weight: 400; opacity: .75; }
+.powermail_form_66 .trobag-more__accordion-body { border-top: 1px solid #ebe8ec; padding: 14px 15px 16px; }
+.powermail_form_66 .trobag-more__group + .trobag-more__group { margin-top: 16px; }
+.powermail_form_66 .trobag-more__checks { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 8px; }
+.powermail_form_66 .trobag-more__check { position: relative; display:inline-flex; align-items: center; gap: 6px; padding: 9px 12px; border: 1px solid #cfcbd1; border-radius: 3px; cursor:pointer; font-weight: 400; font-size: .89rem; line-height: 1.2; background:#fff; }
+.powermail_form_66 .trobag-more__check:has(input:checked) { background: #f7f0f7; border-color:#6d1573; color:#6d1573; }
+.powermail_form_66 .trobag-more__check input { width: 17px; height: 17px; margin: 0; accent-color: #6d1573; }
+.powermail_form_66 .trobag-more__note { margin: 13px 0 0; padding: 12px 13px; background: #f7f4f7; border-left: 3px solid #6d1573; line-height: 1.45; font-size: .9rem; }
+.powermail_form_66 .trobag-more__note p { margin: 0 0 9px; }
+.powermail_form_66 .trobag-more__note p:last-child { margin-bottom:0; }
+.powermail_form_66 .trobag-more__linkbutton { color: #6d1573; background: none; border: 0; padding: 3px 0; text-decoration: underline; cursor:pointer; font: inherit; font-weight: 600; }
+.powermail_form_66 .trobag-more__inner { margin: 10px 0 0; }
+.powermail_form_66 .trobag-more__inner .form-group { margin: 0 0 10px; }
+.powermail_form_66 .trobag-more__person { border: 1px solid #e7e3e8; padding: 13px; margin-bottom: 12px; }
+.powermail_form_66 .trobag-more__personheader { display:flex; align-items: center; justify-content: space-between; gap:12px; margin:0 0 11px; }
+.powermail_form_66 .trobag-more__personheader strong { font-size: .95rem; }
+.powermail_form_66 .trobag-more__small { margin: 8px 0 0; font-size: .82rem; opacity: .78; line-height:1.45; }
+.powermail_form_66 .trobag-more [hidden] { display: none !important; }
+@media (max-width: 650px) {
+  .powermail_form_66 .trobag-more__grid { grid-template-columns:1fr; gap:10px; }
+  .powermail_form_66 .trobag-more__accordion > summary { padding:13px 12px; }
+  .powermail_form_66 .trobag-more__accordion-body { padding: 13px 12px; }
+}
+
+
+/* Kompakte Aufklappbereiche: zwei Spalten auf Desktop, eine auf Mobile. */
+.powermail_form_66 .trobag-more__accordion-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  align-items: start;
+  margin-top: 10px;
+}
+.powermail_form_66 .trobag-more__accordion-grid > .trobag-more__accordion {
+  min-width: 0;
+  width: 100%;
+  margin-top: 0;
+}
+.powermail_form_66 .trobag-more__summary-main {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 4px 9px;
+  min-width: 0;
+  line-height: 1.3;
+}
+.powermail_form_66 .trobag-more__accordion > summary { min-height: 50px; }
+.powermail_form_66 .trobag-more__accordion > summary::after { margin-left: auto; }
+@media (max-width: 650px) {
+  .powermail_form_66 .trobag-more__accordion-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* ---- Feinschliff v3: Original-Trobag-Blau, konsistente Selects und kompakte Abstände ---- */
+.powermail_form_66 {
+  --trobag-ui-blue: #1a70b8; /* Blau aus dem bestehenden "Schaden melden"-Button */
+  --trobag-ui-focus: #c2dbfe;
+  --trobag-ui-line: #dedbe0;
+}
+/* Bestehende Dropdowns und neue Auswahlfelder reagieren optisch identisch. */
+.powermail_form_66 select.form-control { color-scheme: light; }
+.powermail_form_66 select.form-control:focus {
+  border-color: #91b8e9;
+  outline: 0;
+  box-shadow: 0 0 0 3px var(--trobag-ui-focus);
+}
+.powermail_form_66 select.form-control option { color:#111; background:#fff; }
+.powermail_form_66 select.form-control option:checked { background:#767676; color:#fff; }
+/* Powermail-Pfeil; nutzt die bereits vorhandene material-icons-Integration. */
+.powermail_form_66 .trobag-more__grid .form-group,
+.powermail_form_66 .trobag-more__inner .form-group,
+.powermail_form_66 .trobag-more__person .form-group { position: relative; }
+.powermail_form_66 .trobag-more .form-group > select + .material-icons {
+  position: absolute; right: 15px; top: 50%; transform: translateY(-50%);
+  pointer-events: none; font-size: 0 !important; color: #222; line-height: 1;
+}
+/* CSS-Pfeil auch ohne nachgeladenes Icon-Font zuverlässig sichtbar. */
+.powermail_form_66 .trobag-more .form-group > select + .material-icons::before {
+  content: ""; display:block; width:7px; height:7px;
+  border-right:1.5px solid #222; border-bottom:1.5px solid #222;
+  transform:translateY(-2px) rotate(45deg);
+}
+.powermail_form_66 .trobag-more__linkbutton,
+.powermail_form_66 .trobag-more__linkbutton:hover,
+.powermail_form_66 .trobag-more__linkbutton:focus,
+.powermail_form_66 .trobag-more__accordion > summary::after {
+  color: var(--trobag-ui-blue);
+}
+.powermail_form_66 .trobag-more__linkbutton:hover { text-decoration-thickness: 2px; }
+.powermail_form_66 .trobag-more button:focus-visible,
+.powermail_form_66 .trobag-more__accordion > summary:focus-visible {
+  outline: 3px solid var(--trobag-ui-focus); outline-offset: 2px;
+}
+.powermail_form_66 .trobag-more__check input { accent-color: var(--trobag-ui-blue); }
+.powermail_form_66 .trobag-more__check:has(input:checked) {
+  background:#f1f6fd; border-color:var(--trobag-ui-blue); color:#185991;
+}
+.powermail_form_66 .trobag-more__note { background:#f3f7fc; border-left-color:var(--trobag-ui-blue); }
+
+/* Wichtig: Im Trobag-Template sind die Powermail-Felder 50/50 geflext. */
+.powermail_form_66 .powermail_fieldset_81 > .trobag-more {
+  width: 100% !important; max-width: 100% !important;
+  flex: 0 0 100% !important; grid-column: 1 / -1 !important;
+  float: none !important; clear: both !important;
+  margin: 1px 0 7px !important;
+}
+.powermail_form_66 .trobag-more { margin: 0 0 5px !important; }
+.powermail_form_66 .trobag-more select.powermail_select {
+  appearance: none; -webkit-appearance: none;
+  padding-right: 39px; background-color:#fff;
+}
+
+.powermail_form_66 .trobag-more__heading {
+  margin: 0 0 7px; font-size: 1rem; font-weight: 600; line-height: 1.3;
+}
+.powermail_form_66 .trobag-more__grid {
+  gap: 7px 10px; margin-bottom: 7px;
+}
+.powermail_form_66 .trobag-more__accordion-grid { gap: 10px; margin-top: 8px; }
+.powermail_form_66 .trobag-more__accordion > summary { padding: 10px 12px; min-height: 45px; }
+.powermail_form_66 .trobag-more__accordion-body { padding: 12px; }
+.powermail_form_66 .trobag-more__small { margin: 6px 0 0; }
+.powermail_form_66 .powermail_fieldset_81 .powermail_fieldwrap_beschreibung { margin-bottom: 7px; }
+/* Schlichte Abschnitts-Navigation statt Kacheln, Nummern und Pfeilen. */
+.powermail_form_66.trobag-steps-ready > fieldset.trobag-step {
+  width:100%; min-width:0; padding:0 !important;
+  margin:0 0 10px !important; border:0 !important;
+}
+.powermail_form_66.trobag-steps-ready > fieldset.trobag-step > legend.powermail_legend {
+  display:none !important;
+}
+.powermail_form_66.trobag-steps-ready .trobag-step__toggle {
+  appearance:none; -webkit-appearance:none;
+  display:flex !important; width:100%; flex:0 0 100%; grid-column:1 / -1;
+  align-items:center; justify-content:space-between; gap:15px;
+  padding:11px 1px 9px; margin:0 0 10px; min-height:38px;
+  border:0 !important; border-bottom:1px solid #dcdcdc !important;
+  border-radius:0 !important; background:transparent !important;
+  color:#181818; font:inherit; cursor:pointer; text-align:left;
+  box-shadow:none !important;
+}
+.powermail_form_66.trobag-steps-ready .trobag-step__toggle:hover,
+.powermail_form_66.trobag-steps-ready .trobag-step__toggle[aria-expanded="true"] {
+  border-bottom-color:#1a70b8 !important;
+}
+.powermail_form_66.trobag-steps-ready .trobag-step__toggle:focus-visible {
+  outline:2px solid #a8ccef; outline-offset:2px;
+}
+.powermail_form_66 .trobag-step__label {
+  font-size:1rem; font-weight:600; line-height:1.4; color:#111;
+}
+.powermail_form_66 .trobag-step__action {
+  margin-left:auto; flex-shrink:0; font-size:.86rem;
+  font-weight:400; line-height:1.4; color:#1a70b8;
+  text-decoration:none;
+}
+.powermail_form_66 .trobag-step__toggle:hover .trobag-step__action { text-decoration:underline; }
+.powermail_form_66.trobag-steps-ready .trobag-step--collapsed > .powermail_fieldwrap,
+.powermail_form_66.trobag-steps-ready .trobag-step--collapsed > .trobag-step__next {
+  display:none !important;
+}
+.powermail_form_66 .trobag-step__next {
+  display:flex; flex:0 0 100%; grid-column:1 / -1; width:100%;
+  justify-content:flex-end; margin:5px 0 8px;
+}
+.powermail_form_66 .trobag-step__next button {
+  appearance:none; cursor:pointer; min-height:39px; padding:9px 15px;
+  border:1px solid #1a70b8; background:#1a70b8; color:#fff;
+  font:inherit; font-weight:600; border-radius:2px;
+}
+.powermail_form_66 .trobag-step__next button:hover { background:#125b99; }
+.powermail_form_66 .trobag-step__next button:focus-visible { outline:3px solid #b9d6f5; outline-offset:2px; }
+/* Enger Rhythmus rund um die zusätzlichen Schadenfelder. */
+.powermail_form_66 .trobag-more { margin:0 0 4px !important; }
+.powermail_form_66 .trobag-more__heading { margin:1px 0 8px; }
+.powermail_form_66 .trobag-more__grid { gap:8px 10px; margin:0 0 8px; }
+.powermail_form_66 .trobag-more__accordion-grid { gap:10px; margin:6px 0 2px; }
+.powermail_form_66 .trobag-more__accordion > summary { min-height:42px; padding:9px 11px; }
+.powermail_form_66 .trobag-more__accordion-body { padding:12px; }
+.powermail_form_66 .trobag-more__small { margin:6px 0 0; }
+.powermail_form_66 .powermail_fieldset_81 .powermail_fieldwrap_beschreibung { margin-bottom:5px; }
+.powermail_form_66.trobag-steps-ready .powermail_fieldset_82 .powermail_fieldwrap_abstand_01 { display:none; }
+@media (max-width:650px) {
+  .powermail_form_66 .trobag-more__accordion-grid { grid-template-columns:minmax(0,1fr); gap:8px; }
+  .powermail_form_66 .trobag-more__grid { grid-template-columns:minmax(0,1fr); }
+  .powermail_form_66 .trobag-step__label { font-size:.98rem; }
+  .powermail_form_66.trobag-steps-ready .powermail_fieldset_80 > .powermail_fieldwrap,
+  .powermail_form_66.trobag-steps-ready .powermail_fieldset_81 > .powermail_fieldwrap {
+    width:100% !important; max-width:100% !important; flex:0 0 100% !important;
+  }
+}
+
+
+/* ---- Feinschliff: exakt gleiche Spaltenbreiten und Linienenden wie Powermail ----
+   Die bestehenden Trobag-Eingabefelder bilden den Massstab. Die per JS gemessenen
+   CSS-Variablen berücksichtigen auch die individuellen Template-Abstände. */
+.powermail_form_66.trobag-steps-ready > fieldset.trobag-step > .trobag-step__toggle,
+.powermail_form_66.trobag-steps-ready > fieldset.trobag-step > .trobag-step__next {
+  box-sizing: border-box;
+  width: calc(100% - var(--trobag-native-right-inset, 0px)) !important;
+  flex: 0 0 calc(100% - var(--trobag-native-right-inset, 0px)) !important;
+}
+/* Nur die zwei direkt ergänzten Feldreihen angleichen, nicht die inneren Felder
+   von Nachbarn oder zusätzlichen Beteiligten. */
+.powermail_form_66 .powermail_fieldset_81 > .trobag-more > .trobag-more__grid,
+.powermail_form_66 .powermail_fieldset_81 > .trobag-more > .trobag-more__accordion-grid {
+  box-sizing: border-box;
+  width: calc(100% - var(--trobag-native-right-inset, 0px)) !important;
+  grid-template-columns: var(--trobag-native-first-width, minmax(0, 1fr)) minmax(0, 1fr) !important;
+  column-gap: var(--trobag-native-column-gap, 8px) !important;
+}
+@media (max-width: 650px) {
+  .powermail_form_66 .powermail_fieldset_81 > .trobag-more > .trobag-more__grid,
+  .powermail_form_66 .powermail_fieldset_81 > .trobag-more > .trobag-more__accordion-grid {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+}
+
+
+/* ---- Finale Angleichung: optionale Boxen wie reguläre Eingabefelder ----
+   Höhe wird am originalen Powermail-Feld gemessen, nicht pauschal geraten. */
+.powermail_form_66 .trobag-more .form-control {
+  height: var(--trobag-native-field-height, 45px) !important;
+  min-height: var(--trobag-native-field-height, 45px) !important;
+}
+/* Auch unter den Optionsfeldern denselben Zeilenabstand wie sonst. */
+.powermail_form_66 .powermail_fieldset_81 > .trobag-more {
+  margin-bottom: 0 !important;
+}
+/* Zwischen Dropdown-Reihe und den beiden Optionsfeldern nur EIN normaler Zeilenabstand. */
+.powermail_form_66 .powermail_fieldset_81 > .trobag-more > .trobag-more__grid {
+  margin: 0 !important;
+}
+.powermail_form_66 .powermail_fieldset_81 > .trobag-more > .trobag-more__accordion-grid {
+  margin: 8px 0 0 !important;
+  row-gap: 8px !important;
+}
+/* Aussenkante der geschlossenen Box exakt so hoch wie ein originales Eingabefeld. */
+.powermail_form_66 .trobag-more__accordion-grid > .trobag-more__accordion {
+  border: 1px solid #dedbe0;
+  border-radius: 3px;
+  margin: 0 !important;
+  background: #fff;
+}
+.powermail_form_66 .trobag-more__accordion-grid > .trobag-more__accordion > summary {
+  height: calc(var(--trobag-native-field-height, 45px) - 2px) !important;
+  min-height: calc(var(--trobag-native-field-height, 45px) - 2px) !important;
+  padding: 0 10px !important;
+  font-family: inherit !important;
+  font-size: inherit !important;
+  font-weight: 400 !important;
+  line-height: normal !important;
+  letter-spacing: normal !important;
+  box-sizing: border-box;
+}
+.powermail_form_66 .trobag-more__accordion-grid > .trobag-more__accordion > summary .trobag-more__summary-main,
+.powermail_form_66 .trobag-more__accordion-grid > .trobag-more__accordion > summary .trobag-more__summary-main > span:first-child {
+  font-family: inherit !important;
+  font-size: inherit !important;
+  font-weight: 400 !important;
+  line-height: normal !important;
+}
+.powermail_form_66 .trobag-more__accordion-grid > .trobag-more__accordion > summary .trobag-more__muted {
+  font-size: .85em !important;
+  font-weight: 400 !important;
+}
+@media (max-width: 650px) {
+  .powermail_form_66 .powermail_fieldset_81 > .trobag-more > .trobag-more__accordion-grid {
+    margin-top: 8px !important;
+  }
+}
+
+</style>
+<script id="trobag-schnellanfrage-inline-js">
+/*
+ * TROBAG | ERWEITERUNG DES BESTEHENDEN SCHNELLANFRAGE-FORMULARS
+ * Wirkt ausschliesslich in .powermail_form_66 (Powermail-Formular UID 66).
+ * Bestehende Eingabefelder, Powermail-Namen, Form-Action, Datei-Upload,
+ * Datenschutz, Validierung und versteckte TYPO3-Felder bleiben erhalten.
+ *
+ * Aktuelle Formular-Konfiguration: "beschreibung" ist das einzige bestehende
+ * Textfeld für Schadenangaben. Deshalb werden die freiwilligen Zusatzangaben
+ * beim Abschicken als zusammengefasster Text an DIESES BESTEHENDE Feld angehängt.
+ * Für separate Backend-Felder muss die Formular-Konfiguration in TYPO3/Powermail
+ * ergänzt werden. Bitte __trustedProperties NIE manuell erweitern.
+ */
+(function () {
+  'use strict';
+  const FORM_SELECTOR = 'form.powermail_form_66';
+  const MARKER = ' [Zusätzliche Schadenangaben: ';
+  const escapeHtml = value => String(value).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+  const rooms = ['Badezimmer', 'Küche', 'Wohnzimmer', 'Schlafzimmer', 'Keller', 'Waschküche', 'Weitere Räume'];
+  const parts = ['Wand', 'Decke', 'Boden'];
+  function checkboxGroup(items, group) {
+    return items.map(item => {
+      const id = 'trobag-' + group + '-' + item.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+      return `<label class="trobag-more__check" for="${id}"><input type="checkbox" id="${id}" data-trobag-${group}="${escapeHtml(item)}">${escapeHtml(item)}</label>`;
+    }).join('');
+  }
+  const extraHTML = `
+  <section class="powermail_fieldwrap trobag-more" aria-label="Ergänzende Angaben zum Schaden">
+    <div class="trobag-more__heading">Weitere Angaben zum Schaden</div>
+    <div class="trobag-more__grid">
+      <div class="form-group">
+        <select id="trobag-objektart" class="powermail_select form-control" aria-label="Objektart (Pflichtfeld)" required>
+          <option value="">Objektart*</option>
+          <option>Einfamilienhaus</option><option>Mehrfamilienhaus</option>
+          <option>Gewerbe</option><option>Andere Objektart</option>
+        </select><div class="material-icons" aria-hidden="true">&#xe5cf;</div></div>
+      <div class="form-group">
+        <select id="trobag-etage" class="powermail_select form-control" aria-label="Etage der Schadenstelle (Pflichtfeld)" required>
+          <option value="">Etage der Schadenstelle*</option>
+          <option>Untergeschoss (UG)</option><option>Erdgeschoss (EG)</option>
+          <option>1. OG</option><option>2. OG</option><option>3. OG</option>
+          <option>4. OG oder höher</option><option>Dachgeschoss</option><option>Nicht bekannt</option>
+        </select><div class="material-icons" aria-hidden="true">&#xe5cf;</div></div>
+    </div>
+    <div class="trobag-more__accordion-grid">
+    <details class="trobag-more__accordion" id="trobag-betroffen">
+      <summary><span class="trobag-more__summary-main"><span>Betroffene Räume und Schadenstellen</span><span class="trobag-more__muted">optional</span></span></summary>
+      <div class="trobag-more__accordion-body">
+        <div class="trobag-more__group">
+          <div class="trobag-more__label">Welche Räume sind betroffen?</div>
+          <div class="trobag-more__checks">${checkboxGroup(rooms, 'room')}</div>
+        </div>
+        <div class="trobag-more__group">
+          <div class="trobag-more__label">Wo ist der Schaden sichtbar?</div>
+          <div class="trobag-more__checks">${checkboxGroup(parts, 'part')}</div>
+        </div>
+        <div class="trobag-more__note" id="trobag-neighbours" hidden>
+          <p><strong>Möglicherweise sind weitere Wohnungen betroffen.</strong><br>
+            Bei Schäden an der Decke oder am Boden können Angaben zu Bewohnern der Wohnung darüber bzw. darunter hilfreich sein.</p>
+          <button class="trobag-more__linkbutton" type="button" id="trobag-toggle-neighbour" aria-expanded="false" aria-controls="trobag-neighbour-fields">+ Nachbarn angeben (freiwillig)</button>
+          <div class="trobag-more__inner" id="trobag-neighbour-fields" hidden>
+            <div class="form-group"><label for="trobag-neighbour-flat" class="trobag-more__label">Welche Wohnung?</label>
+              <select id="trobag-neighbour-flat" class="form-control powermail_select">
+                <option value="">Welche Wohnung?</option><option>Wohnung darüber</option><option>Wohnung darunter</option><option>Beide Wohnungen</option>
+              </select><div class="material-icons" aria-hidden="true">&#xe5cf;</div></div>
+            <div class="form-group"><label for="trobag-neighbour-name" class="trobag-more__label">Name der Bewohner (falls bekannt)</label>
+              <input id="trobag-neighbour-name" class="form-control powermail_input" type="text" autocomplete="off" placeholder="Auch nur ein Name hilft uns weiter"></div>
+            <div class="form-group"><label for="trobag-neighbour-contact" class="trobag-more__label">Telefon oder E-Mail (optional)</label>
+              <input id="trobag-neighbour-contact" class="form-control powermail_input" type="text" autocomplete="off" placeholder="Nur falls bekannt"></div>
+          </div>
+        </div>
+      </div>
+    </details>
+    <details class="trobag-more__accordion" id="trobag-beteiligte">
+      <summary><span class="trobag-more__summary-main"><span>Weitere Beteiligte hinzufügen</span><span class="trobag-more__muted">optional</span></span></summary>
+      <div class="trobag-more__accordion-body">
+        <div id="trobag-persons" aria-live="polite"></div>
+        <button type="button" class="trobag-more__linkbutton" id="trobag-add-person">+ Person hinzufügen</button>
+        <p class="trobag-more__small">Zum Beispiel betroffene Bewohner, Eigentümer, Verwaltung oder bereits involvierte Sanitärfirmen. Bitte nur notwendige Kontaktdaten angeben.</p>
+      </div>
+    </details>
+    </div>
+  </section>`;
+
+  function init(form) {
+    if (!form || form.dataset.trobagEnhanced === '1') return;
+    const description = form.querySelector('#powermail_field_beschreibung');
+    const anchor = description && description.closest('.powermail_fieldwrap');
+    if (!anchor) return;
+    form.dataset.trobagEnhanced = '1';
+    // Die Beschreibung bleibt das ORIGINAL-Powermail-Feld (auch der Feldname).
+    description.placeholder = 'Was ist passiert?*';
+    description.setAttribute('aria-label', 'Was ist passiert? (Pflichtfeld)');
+    anchor.insertAdjacentHTML('afterend', extraHTML);
+    const root = form.querySelector('.trobag-more');
+    const $ = selector => root.querySelector(selector);
+    const checked = attr => Array.from(root.querySelectorAll(`input[${attr}]:checked`)).map(i => i.getAttribute(attr));
+
+    function updateNeighbour() {
+      const needs = $('#trobag-objektart').value === 'Mehrfamilienhaus' &&
+        checked('data-trobag-part').some(value => value === 'Decke' || value === 'Boden');
+      $('#trobag-neighbours').hidden = !needs;
+      if (!needs) {
+        $('#trobag-neighbour-fields').hidden = true;
+        $('#trobag-toggle-neighbour').setAttribute('aria-expanded', 'false');
+        $('#trobag-toggle-neighbour').textContent = '+ Nachbarn angeben (freiwillig)';
+      }
+    }
+    root.addEventListener('change', event => {
+      if (event.target.id === 'trobag-objektart' || event.target.hasAttribute('data-trobag-part')) updateNeighbour();
+    });
+    $('#trobag-toggle-neighbour').addEventListener('click', () => {
+      const panel = $('#trobag-neighbour-fields');
+      panel.hidden = !panel.hidden;
+      $('#trobag-toggle-neighbour').setAttribute('aria-expanded', String(!panel.hidden));
+      $('#trobag-toggle-neighbour').textContent = panel.hidden ? '+ Nachbarn angeben (freiwillig)' : '− Angaben zu Nachbarn schliessen';
+      if (!panel.hidden) {
+        const ceiling = checked('data-trobag-part').includes('Decke');
+        const floor = checked('data-trobag-part').includes('Boden');
+        const select = $('#trobag-neighbour-flat');
+        if (!select.value) select.value = ceiling && floor ? 'Beide Wohnungen' : ceiling ? 'Wohnung darüber' : 'Wohnung darunter';
+      }
+    });
+
+    let counter = 0;
+    $('#trobag-add-person').addEventListener('click', () => {
+      counter += 1;
+      const index = counter;
+      const node = document.createElement('div');
+      node.className = 'trobag-more__person';
+      node.dataset.person = String(index);
+      node.innerHTML = `
+        <div class="trobag-more__personheader"><strong>Weitere Person</strong>
+          <button class="trobag-more__linkbutton" type="button" data-trobag-remove>Entfernen</button></div>
+        <div class="trobag-more__grid">
+          <div class="form-group"><label for="trobag-person-role-${index}">Funktion</label>
+            <select id="trobag-person-role-${index}" class="form-control powermail_select" data-trobag-role>
+              <option value="">Funktion auswählen</option><option>Bewohner/in</option><option>Eigentümer/in</option>
+              <option>Verwaltung</option><option>Sanitär / Handwerker</option><option>Andere</option>
+            </select><div class="material-icons" aria-hidden="true">&#xe5cf;</div></div>
+          <div class="form-group"><label for="trobag-person-name-${index}">Name / Firma</label>
+            <input id="trobag-person-name-${index}" class="form-control powermail_input" data-trobag-name type="text" autocomplete="off" placeholder="Falls bekannt"></div>
+        </div>
+        <div class="form-group"><label class="trobag-more__label" for="trobag-person-contact-${index}">Telefon / E-Mail (optional)</label>
+          <input id="trobag-person-contact-${index}" class="form-control powermail_input" data-trobag-contact type="text" autocomplete="off" placeholder="Falls bekannt"></div>`;
+      $('#trobag-persons').appendChild(node);
+    });
+    $('#trobag-persons').addEventListener('click', event => {
+      if (event.target.closest('[data-trobag-remove]')) event.target.closest('.trobag-more__person').remove();
+    });
+
+    function getSummary() {
+      const data = [];
+      const add = (key, value) => { if (value) data.push(`${key}: ${value}`); };
+      add('Objektart', $('#trobag-objektart').value);
+      add('Etage', $('#trobag-etage').value);
+      add('Räume', checked('data-trobag-room').join(', '));
+      add('Schadenstellen', checked('data-trobag-part').join(', '));
+      if (!$('#trobag-neighbours').hidden && !$('#trobag-neighbour-fields').hidden) {
+        const neighbour = [$('#trobag-neighbour-flat').value,
+          $('#trobag-neighbour-name').value.trim(), $('#trobag-neighbour-contact').value.trim()].filter(Boolean).join(' / ');
+        add('Wohnung darüber/darunter', neighbour);
+      }
+      const people = Array.from($('#trobag-persons').querySelectorAll('.trobag-more__person'));
+      people.forEach((person, i) => {
+        const values = ['[data-trobag-role]', '[data-trobag-name]', '[data-trobag-contact]']
+          .map(selector => person.querySelector(selector).value.trim()).filter(Boolean);
+        add(`Weitere Person ${i + 1}`, values.join(' / '));
+      });
+      return data.join('; ');
+    }
+    function baseDescription() {
+      const current = description.value;
+      const idx = current.indexOf(MARKER);
+      return idx === -1 ? current : current.substring(0, idx);
+    }
+    // Der Powermail-Server vertraut NUR seinen im TYPO3-Backend definierten
+    // Feldern. Die neuen Browser-Felder bekommen bewusst KEINEN Powermail-Namen.
+    form.addEventListener('submit', () => {
+      const extras = getSummary();
+      description.value = baseDescription() + (extras ? `${MARKER}${extras}]` : '');
+    }, true);
+    // Bei erneutem Bearbeiten keine alten zusammengefassten Angaben duplizieren.
+    description.addEventListener('focus', () => {
+      if (description.value.includes(MARKER)) description.value = baseDescription();
+    });
+    // Schutz: ein lokal geöffnetes Beispiel soll nie an die Live-Website posten.
+    if (document.documentElement.dataset.trobagPreview === 'true') {
+      form.addEventListener('submit', event => {
+        event.preventDefault();
+        event.stopImmediatePropagation();
+        const info = document.getElementById('trobag-preview-status');
+        if (info) {
+          info.textContent = 'Vorschau: Die Angaben wurden geprüft, aber nicht versendet. Das bestehende Powermail-Backend wird hier nicht aufgerufen.';
+          info.hidden = false;
+        }
+      }, true);
+    }
+
+    // Drei kompakte, progressive Bereiche direkt auf den bestehenden
+    // Powermail-Feldsets. Keine neuen Formulare, keine geänderten Feldnamen.
+    setupProgressiveSections(form);
+  }
+
+  function setupProgressiveSections(form) {
+    const fieldsets = ['.powermail_fieldset_80', '.powermail_fieldset_81', '.powermail_fieldset_82']
+      .map(selector => form.querySelector(selector));
+    if (fieldsets.some(fieldset => !fieldset)) return;
+    const steps = [
+      { title: 'Kontaktdaten', next: 'Weiter zu den Schadenangaben' },
+      { title: 'Schaden & Schadenstelle', next: 'Weiter zu Fotos & Absenden' },
+      { title: 'Fotos & Absenden' }
+    ];
+
+    fieldsets.forEach((fieldset, index) => {
+      fieldset.classList.add('trobag-step');
+      if (index > 0) fieldset.classList.add('trobag-step--collapsed');
+      const toggle = document.createElement('button');
+      toggle.type = 'button';
+      toggle.className = 'trobag-step__toggle';
+      toggle.setAttribute('aria-expanded', String(index === 0));
+      toggle.setAttribute('aria-label', `${steps[index].title} ${index === 0 ? 'schliessen' : 'öffnen'}`);
+      toggle.innerHTML = `<span class="trobag-step__label">${steps[index].title}</span>` +
+        `<span class="trobag-step__action" aria-hidden="true">${index === 0 ? 'Schliessen' : 'Öffnen'}</span>`;
+      const legend = fieldset.querySelector('legend.powermail_legend');
+      if (legend) legend.insertAdjacentElement('afterend', toggle);
+      else fieldset.insertBefore(toggle, fieldset.firstChild);
+      toggle.addEventListener('click', () => {
+        if (fieldset.classList.contains('trobag-step--collapsed')) openStep(index);
+        else { // bewusstes Zuklappen; alle Schritte können geschlossen sein
+          fieldset.classList.add('trobag-step--collapsed');
+          updateToggle(toggle, false);
+        }
+      });
+      if (index < 2) {
+        const next = document.createElement('div');
+        next.className = 'trobag-step__next';
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.textContent = steps[index].next;
+        button.addEventListener('click', () => {
+          const invalid = Array.from(fieldset.querySelectorAll('input, select, textarea'))
+            .find(control => control.willValidate && !control.checkValidity());
+          if (invalid) {
+            openStep(index);
+            invalid.focus();
+            invalid.reportValidity();
+            return;
+          }
+          openStep(index + 1, true);
+        });
+        next.appendChild(button);
+        fieldset.appendChild(next);
+      }
+    });
+
+    form.classList.add('trobag-steps-ready');
+    // Im Live-Template koennen die Powermail-Feldspalten einen kleinen
+    // rechten Innenabstand besitzen. Damit Trennlinien, Dropdowns und
+    // aufklappbare Zusatzfelder exakt an den ORIGINAL-Feldern enden,
+    // messen wir deren tatsaechliche Geometrie (statt fixe px zu raten).
+    function alignToExistingFields() {
+      const firstInput = fieldsets[1].querySelector('#powermail_field_schadenadressestrasse');
+      const secondInput = fieldsets[1].querySelector('#powermail_field_schadenadresseplz');
+      const firstContact = fieldsets[0].querySelector('#powermail_field_name');
+      const secondContact = fieldsets[0].querySelector('#powermail_field_vorname');
+      const damageVisible = firstInput && firstInput.getClientRects().length &&
+        secondInput && secondInput.getClientRects().length;
+      const pair = damageVisible ? [firstInput, secondInput] : [firstContact, secondContact];
+      if (!pair[0] || !pair[1] || !pair[0].getClientRects().length || !pair[1].getClientRects().length) return;
+      const container = pair[0].closest('fieldset.trobag-step');
+      if (!container) return;
+      const outer = container.getBoundingClientRect();
+      const first = pair[0].getBoundingClientRect();
+      const second = pair[1].getBoundingClientRect();
+      if (outer.width <= 0 || first.width <= 0 || second.width <= 0) return;
+      // Gleiche Feldhöhe für neue Selects und optionale Aufklappfelder wie bei den
+      // Original-Eingaben der Website (auch wenn sich diese responsiv ändern).
+      if (first.height >= 30 && first.height <= 85) {
+        form.style.setProperty('--trobag-native-field-height', `${first.height.toFixed(2)}px`);
+      }
+      const rightInset = Math.max(0, outer.right - Math.max(first.right, second.right));
+      if (rightInset < outer.width * 0.3) {
+        form.style.setProperty('--trobag-native-right-inset', `${rightInset.toFixed(2)}px`);
+      }
+      // Bei zwei sichtbaren Spalten genau dieselben Kanten und dieselbe
+      // Luecke verwenden wie die bestehenden Schadenadress-Felder.
+      if (damageVisible && second.left > first.left + 15) {
+        const firstWidth = first.right - outer.left;
+        const columnGap = second.left - first.right;
+        if (firstWidth > 0 && columnGap >= 0 && columnGap < 60 &&
+            firstWidth + columnGap < outer.width - rightInset) {
+          form.style.setProperty('--trobag-native-first-width', `${firstWidth.toFixed(2)}px`);
+          form.style.setProperty('--trobag-native-column-gap', `${columnGap.toFixed(2)}px`);
+        }
+      }
+    }
+    let resizeQueued = false;
+    window.addEventListener('resize', () => {
+      if (resizeQueued) return;
+      resizeQueued = true;
+      requestAnimationFrame(() => { resizeQueued = false; alignToExistingFields(); });
+    }, {passive:true});
+    alignToExistingFields();
+    function updateToggle(toggle, open) {
+      toggle.setAttribute('aria-expanded', String(open));
+      const label = toggle.querySelector('.trobag-step__label').textContent;
+      toggle.setAttribute('aria-label', `${label} ${open ? 'schliessen' : 'öffnen'}`);
+      const action = toggle.querySelector('.trobag-step__action');
+      if (action) action.textContent = open ? 'Schliessen' : 'Öffnen';
+    }
+    function openStep(index, scroll = false) {
+      fieldsets.forEach((fieldset, i) => {
+        const open = i === index;
+        fieldset.classList.toggle('trobag-step--collapsed', !open);
+        const toggle = fieldset.querySelector('.trobag-step__toggle');
+        if (toggle) updateToggle(toggle, open);
+      });
+      alignToExistingFields();
+      if (scroll) {
+        const button = fieldsets[index].querySelector('.trobag-step__toggle');
+        if (button) button.scrollIntoView({behavior: 'smooth', block: 'nearest'});
+      }
+    }
+    // Beim Absenden bzw. bei nativer HTML5-Validierung den fehlerhaften
+    // Abschnitt sofort öffnen. Die Original-Validierung bleibt aktiv.
+    // Native Validierung meldet ggf. mehrere ungültige Felder nacheinander.
+    // Den ZUERSTEN betroffenen Schritt öffnen, nicht den letzten.
+    let earliestInvalid = null;
+    let resetInvalidQueued = false;
+    form.addEventListener('invalid', event => {
+      const idx = fieldsets.findIndex(fieldset => fieldset.contains(event.target));
+      if (idx < 0) return;
+      if (earliestInvalid === null || idx < earliestInvalid) {
+        earliestInvalid = idx;
+        openStep(idx);
+      }
+      if (!resetInvalidQueued) {
+        resetInvalidQueued = true;
+        queueMicrotask(() => { earliestInvalid = null; resetInvalidQueued = false; });
+      }
+    }, true);
+    // Sanftes automatisches Weitergehen, wenn die letzten Kontaktdaten
+    // ausgefüllt und alle Kontakt-Pflichtfelder gültig sind.
+    const role = form.querySelector('#powermail_field_ichbin');
+    if (role) role.addEventListener('change', () => {
+      if (fieldsets[0].classList.contains('trobag-step--collapsed')) return;
+      const required = Array.from(fieldsets[0].querySelectorAll('[required]'));
+      if (required.length && required.every(control => control.checkValidity())) openStep(1, true);
+    });
+  }
+  function start() {
+    document.querySelectorAll(FORM_SELECTOR).forEach(init);
+    // Wenn Powermail das Formular per AJAX nachlädt, ebenfalls ergänzen.
+    const host = document.querySelector('.quick-contact');
+    if (host && typeof MutationObserver !== 'undefined') {
+      let scheduled = false;
+      new MutationObserver(() => {
+        if (scheduled) return;
+        scheduled = true;
+        queueMicrotask(() => { scheduled = false; document.querySelectorAll(FORM_SELECTOR).forEach(init); });
+      }).observe(host, {childList: true, subtree: true});
+    }
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start, {once:true});
+  else start();
+})();
+
+</script>
