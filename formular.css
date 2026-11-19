@@ -198,7 +198,7 @@
 .powermail_form_66 .trobag-step__next button:focus-visible { outline:3px solid #b9d6f5; outline-offset:2px; }
 /* Enger Rhythmus rund um die zusätzlichen Schadenfelder. */
 .powermail_form_66 .trobag-more { margin:0 0 4px !important; }
-.powermail_form_66 .trobag-more__heading { margin:1px 0 8px; }
+.powermail_form_66 .trobag-more__heading { margin:18px 0 8px; }
 .powermail_form_66 .trobag-more__grid { gap:8px 10px; margin:0 0 8px; }
 .powermail_form_66 .trobag-more__accordion-grid { gap:10px; margin:6px 0 2px; }
 .powermail_form_66 .trobag-more__accordion > summary { min-height:42px; padding:9px 11px; }
@@ -258,7 +258,7 @@
   margin: 0 !important;
 }
 .powermail_form_66 .powermail_fieldset_81 > .trobag-more > .trobag-more__accordion-grid {
-  margin: 8px 0 0 !important;
+  margin: 8px 0 8px !important;
   row-gap: 8px !important;
 }
 /* Aussenkante der geschlossenen Box exakt so hoch wie ein originales Eingabefeld. */
@@ -294,4 +294,56 @@
   .powermail_form_66 .powermail_fieldset_81 > .trobag-more > .trobag-more__accordion-grid {
     margin-top: 8px !important;
   }
+}
+
+/* ---------------------------------------------------------------
+   Anpassung nach Mockup: einheitliche Abstaende, blaue Plus-Icons
+   fuer ALLE Selects (auch das urspruengliche Feld "Ich bin").
+   --------------------------------------------------------------- */
+.powermail_form_66 .powermail_fieldwrap_type_select .form-group {
+  position: relative;
+}
+
+/* Standardpfeil der nativen Selects unterdruecken. */
+.powermail_form_66 .powermail_fieldwrap_type_select select.form-control,
+.powermail_form_66 .trobag-more select.powermail_select {
+  appearance: none !important;
+  -webkit-appearance: none !important;
+  background-image: none !important;
+  padding-right: 42px !important;
+}
+.powermail_form_66 select.form-control::-ms-expand {
+  display: none;
+}
+
+/* Bestehendes Material-Icon wird durch ein einziges blaues + ersetzt. */
+.powermail_form_66 .powermail_fieldwrap_type_select .form-group > .material-icons,
+.powermail_form_66 .trobag-more .form-group > select + .material-icons {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 24px;
+  height: 24px;
+  font-size: 0 !important;
+  line-height: 1 !important;
+  pointer-events: none;
+  color: var(--trobag-ui-blue, #1a70b8) !important;
+}
+.powermail_form_66 .powermail_fieldwrap_type_select .form-group > .material-icons::before,
+.powermail_form_66 .trobag-more .form-group > select + .material-icons::before {
+  content: "+" !important;
+  display: block;
+  width: auto;
+  height: auto;
+  border: 0 !important;
+  transform: none !important;
+  font-family: Arial, sans-serif !important;
+  font-size: 21px !important;
+  font-weight: 400 !important;
+  line-height: 1 !important;
+  color: var(--trobag-ui-blue, #1a70b8) !important;
 }
