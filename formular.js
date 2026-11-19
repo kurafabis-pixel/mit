@@ -83,6 +83,18 @@
     </div>
   </section>`;
 
+
+  // Einheitliche blaue Plus-Icons für alle Selects (auch "Ich bin"):
+  // Das Original-Material-Icon wird ausgeblendet, das Wrapper-CSS zeigt nur ein Plus.
+  function setupSelectIcons(scope) {
+    scope.querySelectorAll('select.form-control').forEach(select => {
+      const wrapper = select.parentElement;
+      if (wrapper && wrapper.classList.contains('form-group')) {
+        wrapper.classList.add('trobag-select-ui');
+      }
+    });
+  }
+
   function init(form) {
     if (!form || form.dataset.trobagEnhanced === '1') return;
     const description = form.querySelector('#powermail_field_beschreibung');
@@ -93,6 +105,7 @@
     description.placeholder = 'Was ist passiert?*';
     description.setAttribute('aria-label', 'Was ist passiert? (Pflichtfeld)');
     anchor.insertAdjacentHTML('afterend', extraHTML);
+    setupSelectIcons(form);
     const root = form.querySelector('.trobag-more');
     const $ = selector => root.querySelector(selector);
     const checked = attr => Array.from(root.querySelectorAll(`input[${attr}]:checked`)).map(i => i.getAttribute(attr));
@@ -145,6 +158,7 @@
         <div class="form-group"><label class="trobag-more__label" for="trobag-person-contact-${index}">Telefon / E-Mail (optional)</label>
           <input id="trobag-person-contact-${index}" class="form-control powermail_input" data-trobag-contact type="text" autocomplete="off" placeholder="Falls bekannt"></div>`;
       $('#trobag-persons').appendChild(node);
+      setupSelectIcons(node);
     });
     $('#trobag-persons').addEventListener('click', event => {
       if (event.target.closest('[data-trobag-remove]')) event.target.closest('.trobag-more__person').remove();
