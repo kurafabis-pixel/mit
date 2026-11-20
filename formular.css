@@ -391,10 +391,10 @@
   min-width: 0;
 }
 .powermail_form_66 .trobag-compact-row--contacts {
-  grid-template-columns: 1fr 1.24fr .88fr !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
 }
 .powermail_form_66 .trobag-compact-row--owner {
-  grid-template-columns: 1.2fr .72fr 1fr !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
 }
 .powermail_form_66 .trobag-compact-row > .powermail_fieldwrap {
   width: 100% !important;
@@ -426,5 +426,17 @@
   .powermail_form_66 .trobag-compact-row--contacts,
   .powermail_form_66 .trobag-compact-row--owner {
     grid-template-columns: minmax(0, 1fr) !important;
+  }
+}
+
+/* Ruhigere kompakte Feldgruppen: gleiche Ausrichtung und klare Zuordnung. */
+.powermail_form_66 .powermail_fieldset_81 > .powermail_fieldwrap_marker_02 .form-group {
+  font-weight: 600;
+}
+/* Bei mittleren Ansichten keine einsame Halbspalte: drittes Feld nutzt
+   den restlichen Platz in voller Breite. */
+@media (min-width: 651px) and (max-width: 900px) {
+  .powermail_form_66 .trobag-compact-row > .powermail_fieldwrap:last-child {
+    grid-column: 1 / -1;
   }
 }
