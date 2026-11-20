@@ -442,18 +442,29 @@
 }
 
 
-/* Ansprechpartner wie im Zwei-Spalten-Layout der Zusatzfelder ausrichten. */
-/* Exakt dieselben Spaltenkanten wie bei "Betroffene Räume" und
-   "Weitere Beteiligte hinzufügen". */
+/* Ansprechpartner-Zeile: Links 50 %, rechts Telefon und Schadennummer
+   nebeneinander. Gleiche erste Spaltenkante wie die darüberliegenden
+   Zusatzfelder. Die Telefonnummer erhält 2/3 der rechten Hälfte. */
 .powermail_form_66 .powermail_fieldset_81 > .trobag-compact-row--contacts {
-  grid-template-columns: var(--trobag-native-first-width, minmax(0, 1fr)) minmax(0, 1fr) !important;
+  grid-template-columns:
+    var(--trobag-native-first-width, calc((100% - var(--trobag-native-column-gap, 8px)) / 2))
+    minmax(0, 1.35fr)
+    minmax(0, .65fr) !important;
 }
-/* Die Telefonnummer steht oben rechts, die Schadennummer darunter. */
+/* Auf Desktop bleiben alle drei Felder in derselben Zeile. */
 .powermail_form_66 .powermail_fieldset_81 > .trobag-compact-row--contacts > .powermail_fieldwrap_schadennummer {
-  grid-column: 2 !important;
+  grid-column: auto !important;
 }
-/* Auf Smartphones bleiben die Felder platzsparend in einer Spalte,
-   ohne eine leere erste Spalte vor der Schadennummer. */
+/* Unter 900 px umbrechen, damit Telefonbeschriftung lesbar bleibt. */
+@media (min-width: 651px) and (max-width: 900px) {
+  .powermail_form_66 .powermail_fieldset_81 > .trobag-compact-row--contacts {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+  .powermail_form_66 .powermail_fieldset_81 > .trobag-compact-row--contacts > .powermail_fieldwrap_schadennummer {
+    grid-column: 1 / -1 !important;
+  }
+}
+/* Auf Smartphones bleibt die Feldgruppe einspaltig. */
 @media (max-width: 650px) {
   .powermail_form_66 .powermail_fieldset_81 > .trobag-compact-row--contacts {
     grid-template-columns: minmax(0, 1fr) !important;
