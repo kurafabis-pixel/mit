@@ -86,12 +86,25 @@
 
   // Einheitliche blaue Plus-Icons für alle Selects (auch "Ich bin"):
   // Das Original-Material-Icon wird ausgeblendet, das Wrapper-CSS zeigt nur ein Plus.
+  // Ein separates Element um genau das Select zentriert das Plus stabil.
+  // Bestehende Material-Icons entfernen, damit keine doppelten Zeichen
+  // entstehen. Das Original-Select und sein Powermail-Name bleiben erhalten.
   function setupSelectIcons(scope) {
     scope.querySelectorAll('select.form-control').forEach(select => {
-      const wrapper = select.parentElement;
-      if (wrapper && wrapper.classList.contains('form-group')) {
-        wrapper.classList.add('trobag-select-ui');
-      }
+      if (select.closest('.trobag-select-shell')) return;
+      const parent = select.parentElement;
+      if (!parent) return;
+      parent.querySelectorAll(':scope > .material-icons').forEach(icon => icon.remove());
+      parent.classList.remove('trobag-select-ui');
+      const shell = document.createElement('span');
+      shell.className = 'trobag-select-shell';
+      select.before(shell);
+      shell.appendChild(select);
+      const plus = document.createElement('span');
+      plus.className = 'trobag-select-plus';
+      plus.setAttribute('aria-hidden', 'true');
+      plus.textContent = '+';
+      shell.appendChild(plus);
     });
   }
 
