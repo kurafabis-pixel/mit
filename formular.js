@@ -57,19 +57,10 @@
           <div class="trobag-more__checks">${checkboxGroup(parts, 'part')}</div>
         </div>
         <div class="trobag-more__note" id="trobag-neighbours" hidden>
-          <p><strong>Möglicherweise sind weitere Wohnungen betroffen.</strong><br>
-            Bei Schäden an der Decke oder am Boden können Angaben zu Bewohnern der Wohnung darüber bzw. darunter hilfreich sein.</p>
-          <button class="trobag-more__linkbutton" type="button" id="trobag-toggle-neighbour" aria-expanded="false" aria-controls="trobag-neighbour-fields">+ Nachbarn angeben (freiwillig)</button>
-          <div class="trobag-more__inner" id="trobag-neighbour-fields" hidden>
-            <div class="form-group"><label for="trobag-neighbour-flat" class="trobag-more__label">Welche Wohnung?</label>
-              <select id="trobag-neighbour-flat" class="form-control powermail_select">
-                <option value="">Welche Wohnung?</option><option>Wohnung darüber</option><option>Wohnung darunter</option><option>Beide Wohnungen</option>
-              </select><div class="material-icons" aria-hidden="true">&#xe5cf;</div></div>
-            <div class="form-group"><label for="trobag-neighbour-name" class="trobag-more__label">Name der Bewohner (falls bekannt)</label>
-              <input id="trobag-neighbour-name" class="form-control powermail_input" type="text" autocomplete="off" placeholder="Auch nur ein Name hilft uns weiter"></div>
-            <div class="form-group"><label for="trobag-neighbour-contact" class="trobag-more__label">Telefon oder E-Mail (optional)</label>
-              <input id="trobag-neighbour-contact" class="form-control powermail_input" type="text" autocomplete="off" placeholder="Nur falls bekannt"></div>
-          </div>
+          <p><strong>Auch Nachbarwohnungen könnten betroffen sein.</strong><br>
+            <span id="trobag-neighbour-hint"></span>
+            Falls bekannt, können Sie Namen oder Kontaktdaten der Bewohner bei «Weitere Beteiligte hinzufügen» angeben. Bereits ein Name hilft uns weiter.</p>
+          <button class="trobag-more__linkbutton" type="button" id="trobag-add-neighbour" aria-controls="trobag-beteiligte">+ Betroffene Bewohner hinzufügen</button>
         </div>
       </div>
     </details>
@@ -142,28 +133,38 @@
     const checked = attr => Array.from(root.querySelectorAll(`input[${attr}]:checked`)).map(i => i.getAttribute(attr));
 
     function updateNeighbour() {
+      const selected = checked('data-trobag-part');
       const needs = $('#trobag-objektart').value === 'Mehrfamilienhaus' &&
-        checked('data-trobag-part').some(value => value === 'Decke' || value === 'Boden');
+        selected.some(value => ['Wand', 'Decke', 'Boden'].includes(value));
       $('#trobag-neighbours').hidden = !needs;
-      if (!needs) {
-        $('#trobag-neighbour-fields').hidden = true;
-        $('#trobag-toggle-neighbour').setAttribute('aria-expanded', 'false');
-        $('#trobag-toggle-neighbour').textContent = '+ Nachbarn angeben (freiwillig)';
-      }
+      if (!needs) return;
+      const locations = [];
+      if (selected.includes('Wand')) locations.push('die angrenzende Wohnung');
+      if (selected.includes('Decke')) locations.push('die Wohnung darüber');
+      if (selected.includes('Boden')) locations.push('die Wohnung darunter');
+      const description = locations.length > 1
+        ? locations.slice(0, -1).join(', ') + ' und ' + locations[locations.length - 1]
+        : locations[0];
+      $('#trobag-neighbour-hint').textContent =
+        'Je nach Schadenstelle ' + (locations.length > 1 ? 'können' : 'kann') +
+        ' auch ' + description + ' betroffen sein. ';
     }
     root.addEventListener('change', event => {
       if (event.target.id === 'trobag-objektart' || event.target.hasAttribute('data-trobag-part')) updateNeighbour();
     });
-    $('#trobag-toggle-neighbour').addEventListener('click', () => {
-      const panel = $('#trobag-neighbour-fields');
-      panel.hidden = !panel.hidden;
-      $('#trobag-toggle-neighbour').setAttribute('aria-expanded', String(!panel.hidden));
-      $('#trobag-toggle-neighbour').textContent = panel.hidden ? '+ Nachbarn angeben (freiwillig)' : '− Angaben zu Nachbarn schliessen';
-      if (!panel.hidden) {
-        const ceiling = checked('data-trobag-part').includes('Decke');
-        const floor = checked('data-trobag-part').includes('Boden');
-        const select = $('#trobag-neighbour-flat');
-        if (!select.value) select.value = ceiling && floor ? 'Beide Wohnungen' : ceiling ? 'Wohnung darüber' : 'Wohnung darunter';
+    // Kein zweites Kontaktformular: Hinweis öffnet das bereits vorhandene
+    // "Weitere Beteiligte" und erstellt dort einen neuen Bewohner-Eintrag.
+    $('#trobag-add-neighbour').addEventListener('click', () => {
+      $('#trobag-beteiligte').open = true;
+      $('#trobag-add-person').click();
+      const person = $('#trobag-persons').lastElementChild;
+      if (!person) return;
+      const role = person.querySelector('[data-trobag-role]');
+      if (role) role.value = 'Bewohner/in';
+      const name = person.querySelector('[data-trobag-name]');
+      if (name) {
+        name.focus({preventScroll: true});
+        name.scrollIntoView({behavior: 'smooth', block: 'nearest'});
       }
     });
 
@@ -207,14 +208,6 @@
       add('Schadenstellen', checked('data-trobag-part').join(', '));
       const blocks = [];
       if (lines.length) blocks.push(lines.join('\n'));
-      if (!$('#trobag-neighbours').hidden && !$('#trobag-neighbour-fields').hidden) {
-        const neighbour = [];
-        const append = (key, value) => { if (clean(value)) neighbour.push(`• ${key}: ${clean(value)}`); };
-        append('Wohnung', $('#trobag-neighbour-flat').value);
-        append('Bewohner', $('#trobag-neighbour-name').value);
-        append('Kontakt', $('#trobag-neighbour-contact').value);
-        if (neighbour.length) blocks.push('NACHBARWOHNUNG\n' + neighbour.join('\n'));
-      }
       const people = Array.from($('#trobag-persons').querySelectorAll('.trobag-more__person'));
       const personBlocks = [];
       people.forEach((person, i) => {
