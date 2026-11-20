@@ -473,3 +473,180 @@
     grid-column: auto !important;
   }
 }
+
+
+/* Mobile Optimierung des bestehenden TROBAG Powermail-Formulars (bis 650px).
+   Das Desktop-Layout und alle originalen Powermail-Feldnamen bleiben unveraendert. */
+@media (max-width: 650px) {
+  .powermail_form_66.trobag-steps-ready,
+  .powermail_form_66.trobag-steps-ready * {
+    box-sizing: border-box;
+  }
+  .powermail_form_66.trobag-steps-ready {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+  }
+  .powermail_form_66.trobag-steps-ready > fieldset.trobag-step {
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    padding: 0 !important;
+    margin: 0 0 12px !important;
+    gap: 8px !important;
+  }
+  .powermail_form_66.trobag-steps-ready > fieldset.trobag-step > .trobag-step__toggle {
+    width: 100% !important;
+    flex: 0 0 100% !important;
+    padding: 12px 0 !important;
+    min-height: 48px !important;
+    margin-bottom: 2px !important;
+    align-items: center;
+  }
+  .powermail_form_66 .trobag-step__label {
+    font-size: 15px;
+    font-weight: 600;
+  }
+  .powermail_form_66 .trobag-step__action {
+    font-size: 13px;
+    padding: 6px 0 6px 10px;
+  }
+  /* Alle nativen Kontakt-, Schaden- und Upload-Feldwrapper ganz breit. */
+  .powermail_form_66.trobag-steps-ready > fieldset.trobag-step > .powermail_fieldwrap {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    flex: 0 0 100% !important;
+    float: none !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+  .powermail_form_66.trobag-steps-ready .powermail_fieldwrap .form-group {
+    min-width: 0;
+  }
+  .powermail_form_66.trobag-steps-ready .powermail_fieldwrap .form-control,
+  .powermail_form_66.trobag-steps-ready .trobag-more select.form-control,
+  .powermail_form_66.trobag-steps-ready .trobag-more input.form-control {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-height: 48px;
+    font-size: 16px !important; /* Kein automatisches iPhone-Zoomen beim Fokussieren */
+  }
+  /* Kompakte Dreierreihen werden mobil zu gut lesbaren Einzelzeilen. */
+  .powermail_form_66 .powermail_fieldset_81 > .trobag-compact-row,
+  .powermail_form_66 .powermail_fieldset_81 > .trobag-compact-row--contacts,
+  .powermail_form_66 .powermail_fieldset_81 > .trobag-compact-row--owner {
+    grid-template-columns: minmax(0, 1fr) !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    flex: 0 0 100% !important;
+    gap: 8px !important;
+  }
+  .powermail_form_66 .trobag-compact-row--contacts > .powermail_fieldwrap_schadennummer {
+    grid-column: auto !important;
+  }
+  /* Zusatzauswahl und optionale Details: eine Spalte, keine leeren Zwischenraeume. */
+  .powermail_form_66 .powermail_fieldset_81 > .trobag-more {
+    width: 100% !important;
+    max-width: 100% !important;
+    flex: 0 0 100% !important;
+    gap: 8px !important;
+  }
+  .powermail_form_66 .powermail_fieldset_81 > .trobag-more > .trobag-more__grid,
+  .powermail_form_66 .powermail_fieldset_81 > .trobag-more > .trobag-more__accordion-grid {
+    width: 100% !important;
+    max-width: 100% !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: 8px !important;
+    margin: 0 !important;
+  }
+  .powermail_form_66 .trobag-more__accordion-grid > .trobag-more__accordion {
+    width: 100%;
+    min-width: 0;
+  }
+  .powermail_form_66 .trobag-more__accordion-grid > .trobag-more__accordion > summary {
+    height: auto !important;
+    min-height: max(48px, var(--trobag-native-field-height, 48px)) !important;
+    padding: 10px 12px !important;
+    gap: 8px;
+    font-size: 15px !important;
+  }
+  .powermail_form_66 .trobag-more__accordion > summary .trobag-more__summary-main {
+    display: flex;
+    align-items: baseline;
+    gap: 3px 8px;
+    min-width: 0;
+    flex-wrap: wrap;
+  }
+  .powermail_form_66 .trobag-more__accordion-body {
+    padding: 12px !important;
+  }
+  .powermail_form_66 .trobag-more__checks {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+  }
+  .powermail_form_66 .trobag-more__check {
+    min-width: 0;
+    min-height: 44px;
+    padding: 8px;
+    font-size: 14px;
+    line-height: 1.3;
+  }
+  .powermail_form_66 .trobag-more__check input {
+    flex-shrink: 0;
+  }
+  .powermail_form_66 .trobag-more__linkbutton {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+  }
+  .powermail_form_66 .trobag-more__person { padding: 12px; }
+  .powermail_form_66 .trobag-more__note { padding: 12px; }
+  /* Klare Unterteilung bei der abweichenden Adresse. */
+  .powermail_form_66.trobag-steps-ready .powermail_fieldset_81 > .powermail_fieldwrap_marker_02 {
+    margin-top: 12px !important;
+  }
+  /* Weiter-Schaltflaechen gut mit dem Daumen erreichbar. */
+  .powermail_form_66.trobag-steps-ready > fieldset.trobag-step > .trobag-step__next {
+    width: 100% !important;
+    flex: 0 0 100% !important;
+    margin: 8px 0 4px !important;
+    justify-content: stretch !important;
+  }
+  .powermail_form_66.trobag-steps-ready .trobag-step__next > button {
+    width: 100%;
+    min-height: 48px;
+    font-size: 15px;
+    padding: 12px 14px;
+    white-space: normal;
+  }
+  .powermail_form_66.trobag-steps-ready input[type="file"] {
+    max-width: 100%;
+    width: 100%;
+    font-size: 14px;
+  }
+  /* Abschicken ebenfalls volle Breite, nicht als kleiner Button links. */
+  .powermail_form_66.trobag-steps-ready .powermail_fieldset_82 .powermail_fieldwrap_type_submit,
+  .powermail_form_66.trobag-steps-ready .powermail_fieldset_82 .powermail_fieldwrap_type_submit .form-group {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+  .powermail_form_66.trobag-steps-ready .powermail_fieldset_82 .powermail_submit {
+    display: block;
+    width: 100% !important;
+    min-height: 48px;
+    padding: 12px 16px;
+    font-size: 15px;
+    text-align: center;
+  }
+  .powermail_form_66.trobag-steps-ready .powermail_fieldset_82 .checkbox-control {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  .powermail_form_66.trobag-steps-ready .powermail_fieldset_82 .checkbox-control label {
+    line-height: 1.4;
+    min-width: 0;
+  }
+}
