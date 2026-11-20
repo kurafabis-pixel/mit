@@ -234,6 +234,29 @@
     const fieldsets = ['.powermail_fieldset_80', '.powermail_fieldset_81', '.powermail_fieldset_82']
       .map(selector => form.querySelector(selector));
     if (fieldsets.some(fieldset => !fieldset)) return;
+    // Vorhandene Powermail-Feldwrapper optisch in kompakte Reihen
+    // gruppieren. Name, ID, Validierung und Versand bleiben unverändert.
+    const damageFields = fieldsets[1];
+    function groupExistingFields(fieldNames, groupClass) {
+      const items = fieldNames.map(name => damageFields.querySelector(
+        `.powermail_fieldwrap_${name}`));
+      if (!items.every(item => item && item.parentElement === damageFields)) return;
+      const wrapper = document.createElement('div');
+      wrapper.className = `trobag-compact-row trobag-compact-row--${groupClass}`;
+      items[0].before(wrapper);
+      items.forEach(item => wrapper.appendChild(item));
+    }
+    groupExistingFields([
+      'anspechpartnervorort',
+      'telefonnummeransprechpartnervorort',
+      'schadennummer'
+    ], 'contacts');
+    groupExistingFields([
+      'eigentuemeradressestrasse',
+      'eigentuemeradresseplz',
+      'eigentuemeradresseort'
+    ], 'owner');
+
     const steps = [
       { title: 'Kontaktdaten', next: 'Weiter zu den Schadenangaben' },
       { title: 'Schaden & Schadenstelle', next: 'Weiter zu Fotos & Absenden' },
