@@ -440,3 +440,25 @@
     grid-column: 1 / -1;
   }
 }
+
+
+/* Ansprechpartner wie im Zwei-Spalten-Layout der Zusatzfelder ausrichten. */
+/* Exakt dieselben Spaltenkanten wie bei "Betroffene Räume" und
+   "Weitere Beteiligte hinzufügen". */
+.powermail_form_66 .powermail_fieldset_81 > .trobag-compact-row--contacts {
+  grid-template-columns: var(--trobag-native-first-width, minmax(0, 1fr)) minmax(0, 1fr) !important;
+}
+/* Die Telefonnummer steht oben rechts, die Schadennummer darunter. */
+.powermail_form_66 .powermail_fieldset_81 > .trobag-compact-row--contacts > .powermail_fieldwrap_schadennummer {
+  grid-column: 2 !important;
+}
+/* Auf Smartphones bleiben die Felder platzsparend in einer Spalte,
+   ohne eine leere erste Spalte vor der Schadennummer. */
+@media (max-width: 650px) {
+  .powermail_form_66 .powermail_fieldset_81 > .trobag-compact-row--contacts {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+  .powermail_form_66 .powermail_fieldset_81 > .trobag-compact-row--contacts > .powermail_fieldwrap_schadennummer {
+    grid-column: auto !important;
+  }
+}
