@@ -650,3 +650,30 @@
     min-width: 0;
   }
 }
+
+
+/* Mobile: Dropdown-Plus und Akkordeon-Plus auf derselben X-Position. */
+@media (max-width: 650px) {
+  /* Das Dropdown-Icon sitzt 20 px von der rechten Aussenkante entfernt.
+     Das Akkordeon besitzt zusaetzlich einen 1px-Rahmen: daher 9 statt 10 px. */
+  .powermail_form_66 .trobag-more__accordion-grid > .trobag-more__accordion > summary {
+    position: relative !important;
+    padding: 10px 41px 10px 12px !important;
+  }
+  .powermail_form_66 .trobag-more__accordion-grid > .trobag-more__accordion > summary::after {
+    position: absolute !important;
+    right: 9px !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+    margin: 0 !important;
+    width: 20px !important;
+    height: 20px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    flex: none !important;
+    font: 400 22px/1 Arial, sans-serif !important;
+    color: var(--trobag-ui-blue, #1a70b8) !important;
+    pointer-events: none;
+  }
+}
