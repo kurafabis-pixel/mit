@@ -296,129 +296,58 @@
   }
 }
 
-/* ---------------------------------------------------------------
-   Anpassung nach Mockup: einheitliche Abstaende, blaue Plus-Icons
-   fuer ALLE Selects (auch das urspruengliche Feld "Ich bin").
-   --------------------------------------------------------------- */
-.powermail_form_66 .powermail_fieldwrap_type_select .form-group {
-  position: relative;
+/* TROBAG Selects: Plus innerhalb der Feldgrenzen zentriert.
+   Bewusst kein ::after auf .form-group, da deren Hoehe durch das
+   TYPO3-Template vom tatsaechlichen Select abweichen kann. */
+.powermail_form_66 .trobag-select-shell {
+  position: relative !important;
+  display: block !important;
+  width: 100%;
+  min-width: 0;
+  padding: 0;
+  margin: 0;
 }
-
-/* Standardpfeil der nativen Selects unterdruecken. */
-.powermail_form_66 .powermail_fieldwrap_type_select select.form-control,
-.powermail_form_66 .trobag-more select.powermail_select {
+.powermail_form_66 .trobag-select-shell > select.form-control {
+  display: block;
+  width: 100%;
   appearance: none !important;
   -webkit-appearance: none !important;
   background-image: none !important;
   padding-right: 42px !important;
 }
-.powermail_form_66 select.form-control::-ms-expand {
-  display: none;
-}
-
-/* Bestehendes Material-Icon wird durch ein einziges blaues + ersetzt. */
-.powermail_form_66 .powermail_fieldwrap_type_select .form-group > .material-icons,
-.powermail_form_66 .trobag-more .form-group > select + .material-icons {
+.powermail_form_66 .trobag-select-shell > .trobag-select-plus {
   position: absolute;
-  right: 12px;
   top: 50%;
+  right: 10px;
   transform: translateY(-50%);
   display: flex;
-  justify-content: center;
   align-items: center;
-  width: 24px;
-  height: 24px;
-  font-size: 0 !important;
-  line-height: 1 !important;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  color: var(--trobag-ui-blue, #1a70b8);
+  font: 400 22px/1 Arial, sans-serif;
   pointer-events: none;
-  color: var(--trobag-ui-blue, #1a70b8) !important;
-}
-.powermail_form_66 .powermail_fieldwrap_type_select .form-group > .material-icons::before,
-.powermail_form_66 .trobag-more .form-group > select + .material-icons::before {
-  content: "+" !important;
-  display: block;
-  width: auto;
-  height: auto;
-  border: 0 !important;
-  transform: none !important;
-  font-family: Arial, sans-serif !important;
-  font-size: 21px !important;
-  font-weight: 400 !important;
-  line-height: 1 !important;
-  color: var(--trobag-ui-blue, #1a70b8) !important;
 }
 
-
-/* ================================================================
-   Mockup-Feinschliff: feste vertikale Rhythmik ohne doppelte Margins
-   ================================================================ */
-/* Direkte Kinder als Grid-Zeilen: Die Dropdown-Reihe und die zwei
-   optionalen Aufklappfelder haben immer exakt denselben Abstand. */
+/* Ein einheitlicher Feldabstand zwischen beiden ergaenzten Zeilen.
+   Keine verschachtelten Aussen-Margins, die sich aufaddieren. */
 .powermail_form_66 .powermail_fieldset_81 > .trobag-more {
-  display: grid !important;
-  grid-template-columns: minmax(0, 1fr);
-  align-content: start;
-  row-gap: 8px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 8px !important;
   margin: 0 !important;
   padding: 0 !important;
 }
 .powermail_form_66 .powermail_fieldset_81 > .trobag-more > .trobag-more__heading {
-  margin: 18px 0 0 !important;
+  margin: 16px 0 0 !important;
   padding: 0 !important;
-  line-height: 1.35;
+  flex: none;
 }
 .powermail_form_66 .powermail_fieldset_81 > .trobag-more > .trobag-more__grid,
 .powermail_form_66 .powermail_fieldset_81 > .trobag-more > .trobag-more__accordion-grid {
   margin: 0 !important;
-  row-gap: 8px !important;
-}
-/* Ein normaler Feldabstand nach den optionalen Feldern. */
-.powermail_form_66 .powermail_fieldset_81 > .trobag-more + .powermail_fieldwrap {
-  margin-top: 0 !important;
-}
-
-/* ================================================================
-   Ein einziges Plus pro Dropdown, unabhängig vom Material-Icon-Font
-   ================================================================ */
-.powermail_form_66 .trobag-select-ui {
-  position: relative !important;
-}
-.powermail_form_66 .trobag-select-ui > select.form-control {
-  appearance: none !important;
-  -webkit-appearance: none !important;
-  background-image: none !important;
-  padding-right: 40px !important;
-}
-/* Vorhandene Material-Icon-Pfeile werden vollständig ausgeblendet,
-   damit keine doppelten oder verschobenen Zeichen entstehen. */
-.powermail_form_66 .trobag-select-ui > .material-icons {
-  display: none !important;
-}
-/* Bei Selects mit eigenem Label richtet sich das Icon am Feld aus. */
-.powermail_form_66 .trobag-select-ui::after {
-  content: "+";
-  position: absolute;
-  right: 10px;
-  bottom: calc((var(--trobag-native-field-height, 45px) - 20px) / 2);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 20px;
-  height: 20px;
-  color: var(--trobag-ui-blue, #1a70b8);
-  font-family: Arial, sans-serif;
-  font-weight: 400;
-  font-size: 22px;
-  line-height: 20px;
-  pointer-events: none;
-}
-/* Die optionalen Details benutzen dasselbe Plus. */
-.powermail_form_66 .trobag-more__accordion-grid > .trobag-more__accordion > summary::after {
-  font-family: Arial, sans-serif;
-  font-size: 22px;
-  font-weight: 400;
-  line-height: 20px;
-  width: 20px;
-  height: 20px;
-  color: var(--trobag-ui-blue, #1a70b8);
+  padding: 0 !important;
+  flex: none;
+  gap: var(--trobag-native-column-gap, 8px) !important;
 }
