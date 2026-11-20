@@ -677,3 +677,19 @@
     pointer-events: none;
   }
 }
+
+
+/* Mailformat-Test: Die Beschreibung bleibt optisch ein einzeiliges Feld,
+   kann als Textarea aber die mehrzeiligen Angaben unverändert absenden. */
+.powermail_form_66 .powermail_fieldwrap_beschreibung textarea.trobag-mail-description.form-control {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  height: var(--trobag-native-field-height, 45px) !important;
+  min-height: var(--trobag-native-field-height, 45px) !important;
+  box-sizing: border-box;
+  resize: none;
+  white-space: nowrap;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
