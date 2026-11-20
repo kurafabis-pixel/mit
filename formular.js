@@ -14,7 +14,8 @@
 (function () {
   'use strict';
   const FORM_SELECTOR = 'form.powermail_form_66';
-  const MARKER = ' [Zusätzliche Schadenangaben: ';
+  const MARKER = ' [Zusätzliche Schadenangaben: '; // Alter Marker für Kompatibilität
+  const MAIL_MARKER = '\n\n--- ZUSÄTZLICHE SCHADENANGABEN ---\n';
   const escapeHtml = value => String(value).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 
   const rooms = ['Badezimmer', 'Küche', 'Wohnzimmer', 'Schlafzimmer', 'Keller', 'Waschküche', 'Weitere Räume'];
@@ -110,10 +111,27 @@
 
   function init(form) {
     if (!form || form.dataset.trobagEnhanced === '1') return;
-    const description = form.querySelector('#powermail_field_beschreibung');
+    let description = form.querySelector('#powermail_field_beschreibung');
     const anchor = description && description.closest('.powermail_fieldwrap');
     if (!anchor) return;
     form.dataset.trobagEnhanced = '1';
+    // Ein input[type=text] entfernt Zeilenumbrüche aus seinem Wert.
+    // Für mehrzeilige E-Mail-Angaben ersetzen wir nur dieses Feld im Browser
+    // durch eine optisch einzeilige Textarea. name/id/required bleiben identisch:
+    // Der Powermail-Formularversand verwendet weiterhin dasselbe Feld.
+    if (description.tagName === 'INPUT' && description.type === 'text') {
+      const replacement = document.createElement('textarea');
+      Array.from(description.attributes).forEach(attribute => {
+        if (attribute.name !== 'type' && attribute.name !== 'value') {
+          replacement.setAttribute(attribute.name, attribute.value);
+        }
+      });
+      replacement.rows = 1;
+      replacement.classList.add('trobag-mail-description');
+      replacement.value = description.value;
+      description.replaceWith(replacement);
+      description = replacement;
+    }
     // Die Beschreibung bleibt das ORIGINAL-Powermail-Feld (auch der Feldname).
     description.placeholder = 'Was ist passiert?*';
     description.setAttribute('aria-label', 'Was ist passiert? (Pflichtfeld)');
@@ -178,35 +196,54 @@
     });
 
     function getSummary() {
-      const data = [];
-      const add = (key, value) => { if (value) data.push(`${key}: ${value}`); };
+      // Echte Zeilenumbrüche im Textarea-Wert. Falls das E-Mail-Template
+      // Whitespaces zusammenzieht, bleiben Aufzählungszeichen sichtbar.
+      const clean = value => String(value || '').replace(/[\r\n\u2028\u2029]+/g, ' ').replace(/\s+/g, ' ').trim();
+      const lines = [];
+      const add = (key, value) => { if (clean(value)) lines.push(`• ${key}: ${clean(value)}`); };
       add('Objektart', $('#trobag-objektart').value);
       add('Etage', $('#trobag-etage').value);
-      add('Räume', checked('data-trobag-room').join(', '));
+      add('Betroffene Räume', checked('data-trobag-room').join(', '));
       add('Schadenstellen', checked('data-trobag-part').join(', '));
+      const blocks = [];
+      if (lines.length) blocks.push(lines.join('\n'));
       if (!$('#trobag-neighbours').hidden && !$('#trobag-neighbour-fields').hidden) {
-        const neighbour = [$('#trobag-neighbour-flat').value,
-          $('#trobag-neighbour-name').value.trim(), $('#trobag-neighbour-contact').value.trim()].filter(Boolean).join(' / ');
-        add('Wohnung darüber/darunter', neighbour);
+        const neighbour = [];
+        const append = (key, value) => { if (clean(value)) neighbour.push(`• ${key}: ${clean(value)}`); };
+        append('Wohnung', $('#trobag-neighbour-flat').value);
+        append('Bewohner', $('#trobag-neighbour-name').value);
+        append('Kontakt', $('#trobag-neighbour-contact').value);
+        if (neighbour.length) blocks.push('NACHBARWOHNUNG\n' + neighbour.join('\n'));
       }
       const people = Array.from($('#trobag-persons').querySelectorAll('.trobag-more__person'));
+      const personBlocks = [];
       people.forEach((person, i) => {
-        const values = ['[data-trobag-role]', '[data-trobag-name]', '[data-trobag-contact]']
-          .map(selector => person.querySelector(selector).value.trim()).filter(Boolean);
-        add(`Weitere Person ${i + 1}`, values.join(' / '));
+        const get = selector => clean(person.querySelector(selector).value);
+        const role = get('[data-trobag-role]');
+        const name = get('[data-trobag-name]');
+        const contact = get('[data-trobag-contact]');
+        if (!role && !name && !contact) return;
+        const details = [];
+        if (role) details.push(role);
+        if (name) details.push(name);
+        personBlocks.push(`• Person ${i + 1}: ${details.join(' – ') || 'Keine Bezeichnung'}` +
+          (contact ? `\n  Kontakt: ${contact}` : ''));
       });
-      return data.join('; ');
+      if (personBlocks.length) blocks.push('WEITERE BETEILIGTE\n' + personBlocks.join('\n'));
+      return blocks.join('\n\n');
     }
     function baseDescription() {
       const current = description.value;
-      const idx = current.indexOf(MARKER);
-      return idx === -1 ? current : current.substring(0, idx);
+      const oldIndex = current.indexOf(MARKER);
+      const newIndex = current.indexOf(MAIL_MARKER);
+      const indexes = [oldIndex, newIndex].filter(index => index >= 0);
+      return indexes.length ? current.substring(0, Math.min(...indexes)) : current;
     }
     // Der Powermail-Server vertraut NUR seinen im TYPO3-Backend definierten
     // Feldern. Die neuen Browser-Felder bekommen bewusst KEINEN Powermail-Namen.
     form.addEventListener('submit', () => {
       const extras = getSummary();
-      description.value = baseDescription() + (extras ? `${MARKER}${extras}]` : '');
+      description.value = baseDescription().trimEnd() + (extras ? `${MAIL_MARKER}${extras}` : '');
     }, true);
     // Bei erneutem Bearbeiten keine alten zusammengefassten Angaben duplizieren.
     description.addEventListener('focus', () => {
