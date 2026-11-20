@@ -247,7 +247,7 @@
     }, true);
     // Bei erneutem Bearbeiten keine alten zusammengefassten Angaben duplizieren.
     description.addEventListener('focus', () => {
-      if (description.value.includes(MARKER)) description.value = baseDescription();
+      if (description.value.includes(MARKER) || description.value.includes(MAIL_MARKER)) description.value = baseDescription();
     });
     // Schutz: ein lokal geöffnetes Beispiel soll nie an die Live-Website posten.
     if (document.documentElement.dataset.trobagPreview === 'true') {
