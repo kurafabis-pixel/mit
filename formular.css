@@ -374,3 +374,57 @@
 }
 /* Der Abstand zwischen den beiden Zeilen wird ausschliesslich
    vom flex-gap: 8px auf .trobag-more erzeugt. */
+
+/* Kompakte 3er-Reihen aus ORIGINAL-Powermail-Feldern.
+   Die bestehenden Feldnamen und deren Validierung bleiben erhalten. */
+.powermail_form_66 .powermail_fieldset_81 > .trobag-compact-row {
+  box-sizing: border-box;
+  display: grid !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--trobag-native-column-gap, 8px) !important;
+  width: calc(100% - var(--trobag-native-right-inset, 0px)) !important;
+  max-width: calc(100% - var(--trobag-native-right-inset, 0px)) !important;
+  flex: 0 0 calc(100% - var(--trobag-native-right-inset, 0px)) !important;
+  grid-column: 1 / -1;
+  margin: 0 !important;
+  padding: 0 !important;
+  min-width: 0;
+}
+.powermail_form_66 .trobag-compact-row--contacts {
+  grid-template-columns: 1fr 1.24fr .88fr !important;
+}
+.powermail_form_66 .trobag-compact-row--owner {
+  grid-template-columns: 1.2fr .72fr 1fr !important;
+}
+.powermail_form_66 .trobag-compact-row > .powermail_fieldwrap {
+  width: 100% !important;
+  min-width: 0 !important;
+  max-width: none !important;
+  flex: initial !important;
+  float: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+.powermail_form_66 .trobag-compact-row > .powermail_fieldwrap .form-control {
+  width: 100% !important;
+  max-width: 100% !important;
+}
+.powermail_form_66.trobag-steps-ready .trobag-step--collapsed > .trobag-compact-row {
+  display: none !important;
+}
+/* Eigentümeradresse bleibt trotz kompakter Reihe ein klarer Abschnitt. */
+.powermail_form_66.trobag-steps-ready .powermail_fieldset_81 > .powermail_fieldwrap_marker_02 {
+  margin-top: 14px !important;
+}
+@media (min-width: 651px) and (max-width: 900px) {
+  .powermail_form_66 .trobag-compact-row--contacts,
+  .powermail_form_66 .trobag-compact-row--owner {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+}
+@media (max-width: 650px) {
+  .powermail_form_66 .trobag-compact-row--contacts,
+  .powermail_form_66 .trobag-compact-row--owner {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+}
