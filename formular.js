@@ -1,4 +1,5 @@
 /* TROBAG | Erweiterung bestehendes Powermail-Formular 66 | Funktionen & Felder */
+/* GitHub Pages Live-Release 2026-11-23: nutzbar ohne Versionsparameter. */
 /*
  * TROBAG | ERWEITERUNG DES BESTEHENDEN SCHNELLANFRAGE-FORMULARS
  * Wirkt ausschliesslich in .powermail_form_66 (Powermail-Formular UID 66).
