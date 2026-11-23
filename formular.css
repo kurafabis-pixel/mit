@@ -689,6 +689,12 @@
   height: var(--trobag-native-field-height, 45px) !important;
   min-height: var(--trobag-native-field-height, 45px) !important;
   box-sizing: border-box;
+  /* Wie die originalen einzeiligen Powermail-Felder: gleich hoher Text,
+     gleiche linke Einrueckung und abgerundete Ecken. */
+  border-radius: 4px !important;
+  padding: 0 12px !important;
+  line-height: calc(var(--trobag-native-field-height, 45px) - 2px) !important;
+  background-color: #fff;
   resize: none;
   white-space: nowrap;
   overflow-x: auto;
